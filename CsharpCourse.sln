@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchCase", "SwitchCase\SwitchCase.csproj", "{B857A8DC-EFDD-44D0-900F-F352BAF48948}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelFor", "ParallelFor\ParallelFor.csproj", "{779714BD-1D0A-4239-BE87-210B6708AA91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B857A8DC-EFDD-44D0-900F-F352BAF48948}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B857A8DC-EFDD-44D0-900F-F352BAF48948}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B857A8DC-EFDD-44D0-900F-F352BAF48948}.Release|Any CPU.Build.0 = Release|Any CPU
+		{779714BD-1D0A-4239-BE87-210B6708AA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{779714BD-1D0A-4239-BE87-210B6708AA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{779714BD-1D0A-4239-BE87-210B6708AA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{779714BD-1D0A-4239-BE87-210B6708AA91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
