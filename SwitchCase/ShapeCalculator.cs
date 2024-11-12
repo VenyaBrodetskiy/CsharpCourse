@@ -1,7 +1,17 @@
-﻿namespace SwitchCase;
+﻿using BenchmarkDotNet.Attributes;
 
+namespace SwitchCase;
+
+[MemoryDiagnoser]
 public class ShapeCalculator
 {
+    private readonly Shape[] _shapes =
+    [
+        new Circle(5),
+        new Square(3),
+        new Rectangle(4, 5),
+    ];
+
     public static double CalculateAreaOld(Shape shape)
     {
         switch (shape)
@@ -16,6 +26,7 @@ public class ShapeCalculator
                 return 0;
         }
     }
+
     public static double CalculateAreaNew(Shape shape)
     {
         return shape switch
@@ -25,6 +36,24 @@ public class ShapeCalculator
             Rectangle rectangle => rectangle.Length * rectangle.Width,
             _ => 0
         };
+    }
+
+    [Benchmark]
+    public void SwitchCase()
+    {
+        foreach (var shape in _shapes)
+        {
+            ShapeCalculator.CalculateAreaOld(shape);
+        }
+    }
+
+    [Benchmark]
+    public void PatternMatching()
+    {
+        foreach (var shape in _shapes)
+        {
+            ShapeCalculator.CalculateAreaNew(shape);
+        }
     }
 
     public static bool IsFitToAirplane(Rectangle rect)

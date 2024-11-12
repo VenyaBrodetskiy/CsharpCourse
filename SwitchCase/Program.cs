@@ -1,4 +1,5 @@
-﻿using SwitchCase;
+﻿using BenchmarkDotNet.Running;
+using SwitchCase;
 
 var shapes = new Shape[]
 {
@@ -6,8 +7,6 @@ var shapes = new Shape[]
     new Square(3),
     new Rectangle(4, 5),
 };
-
-var calculator = new ShapeCalculator();
 
 foreach (var shape in shapes)
 {
@@ -23,3 +22,5 @@ var rect2 = new Rectangle(50, 10);
 
 Console.WriteLine($"Is rect1 fit to airplane: {ShapeCalculator.IsFitToAirplane(rect1)}");
 Console.WriteLine($"Is rect2 fit to airplane: {ShapeCalculator.IsFitToAirplane(rect2)}");
+
+BenchmarkRunner.Run<ShapeCalculator>();

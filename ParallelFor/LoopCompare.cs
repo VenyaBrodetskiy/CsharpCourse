@@ -1,19 +1,21 @@
 ﻿using BenchmarkDotNet.Attributes;
+// ReSharper disable UnusedVariable
 
 namespace ParallelFor;
 
+[MemoryDiagnoser]
 public class LoopCompare
 {
     private readonly List<int> _data = Enumerable.Range(0, 1000).ToList();
 
     private static void Calculate(int item)
     {
-        var result = Math.Sqrt(item);
-        //double result = 0;
-        //for (int i = 0; i < 1000; i++)
-        //{
-        //    result += Math.Sqrt(item) * Math.Sin(i);
-        //}
+        //var result = Math.Sqrt(item);
+        double result = 0;
+        for (int i = 0; i < 1000; i++)
+        {
+            result += Math.Sqrt(item) * Math.Sin(i);
+        }
     }
 
     [Benchmark]
