@@ -13,7 +13,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("Numbers"));
-builder.Services.AddScoped<NumberService>();
+builder.Services.AddScoped<IDbService, DbService>();
+builder.Services.AddScoped<INumberService, NumberService>();
 
 var app = builder.Build();
 
@@ -31,14 +32,14 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await dbContext.Database.EnsureCreatedAsync();
     dbContext.Numbers.AddRange(
-        new Entity { Id = 1, Value = 10 },
-        new Entity { Id = 2, Value = 20 },
-        new Entity { Id = 3, Value = 30 }
+        new Number { Id = 1, Value = 10 },
+        new Number { Id = 2, Value = 20 },
+        new Number { Id = 3, Value = 30 }
     );
     dbContext.SaveChanges();
 }
 
-app.MapPost("/calculate", async ([FromServices] NumberService numberService, [FromQuery] string operation) =>
+app.MapPost("/calculate", async ([FromServices] INumberService numberService, [FromQuery] string operation) =>
 {
     var result = operation.ToLower() switch
     {

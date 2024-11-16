@@ -1,13 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebApi.Data;
+﻿namespace WebApi.Service;
 
-namespace WebApi.Service;
+public interface INumberService
+{
+    Task<double> CalculateAverageAsync();
+    Task<double> CalculateSumAsync();
+}
 
-public class NumberService(AppDbContext dbContext)
+public class NumberService(IDbService db, ILogger<NumberService> logger) : INumberService
 {
     public async Task<double> CalculateAverageAsync()
     {
-        var numbers = await dbContext.Numbers.Select(n => n.Value).ToListAsync();
+        logger.LogInformation("Started calculating average");
+
+        var numbers = await db.GetNumbersAsync();
 
         if (numbers.Count == 0)
         {
@@ -19,7 +24,9 @@ public class NumberService(AppDbContext dbContext)
 
     public async Task<double> CalculateSumAsync()
     {
-        var numbers = await dbContext.Numbers.Select(n => n.Value).ToListAsync();
+        logger.LogInformation("Started calculating sum");
+
+        var numbers = await db.GetNumbersAsync();
         
         if (numbers.Count == 0)
         {
