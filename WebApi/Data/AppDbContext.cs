@@ -5,5 +5,5 @@ namespace WebApi.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public DbSet<Entity> Numbers { get; set; }
+    public DbSet<Number> Numbers { get; set; }
 }
