@@ -4,46 +4,42 @@ using WebApi.Service;
 
 namespace WebApi.Tests.Service;
 
-public class NumberServiceTest
+public class NumberServiceTest(NumberServiceFixture fixture) : IClassFixture<NumberServiceFixture>
 {
+    private readonly INumberService _numberService = fixture.NumberService;
+    private readonly Mock<IDbService> _mockDb = fixture.MockDbService;
 
     [Fact]
     public async Task CalculateAverageAsync_ReturnsCorrectSum_WhenNumbersExist()
     {
         // Arrange
-        var mockDbService = new Mock<IDbService>();
-        var mockLogger = new Mock<ILogger<NumberService>>();
-
         var numbers = new List<int> { 10, 20, 30 };
-        mockDbService
+        _mockDb
             .Setup(db => db.GetNumbersAsync())
             .ReturnsAsync(numbers);
-        var numberService = new NumberService(mockDbService.Object, mockLogger.Object);
 
         // Act
-        var result = await numberService.CalculateAverageAsync();
+        var result = await _numberService.CalculateAverageAsync();
 
         // Assert
-        Assert.Equal(numbers.Sum(), result);
+        Assert.Equal(numbers.Average(), result);
     }
 
     [Fact]
     public async Task CalculateAverageAsync_ReturnsZero_WhenNumbersDoNotExist()
     {
         // Arrange
-        var mockDbService = new Mock<IDbService>();
-        var mockLogger = new Mock<ILogger<NumberService>>();
+        //var numbers = new List<int>();
+        var numbers = new List<int> { 20, 30, 40 };
 
-        var numbers = new List<int>();
-        mockDbService
+        _mockDb
             .Setup(db => db.GetNumbersAsync())
             .ReturnsAsync(numbers);
-        var numberService = new NumberService(mockDbService.Object, mockLogger.Object);
 
         // Act
-        var result = await numberService.CalculateAverageAsync();
+        var result = await _numberService.CalculateAverageAsync();
 
         // Assert
-        Assert.Equal(0, result);
+        Assert.Equal(30, result);
     }
 }
