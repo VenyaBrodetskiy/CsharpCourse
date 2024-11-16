@@ -14,10 +14,10 @@ public class NumberService(IDbService db, ILogger<NumberService> logger) : INumb
 
         var numbers = await db.GetNumbersAsync();
 
-        if (numbers.Count == 0)
-        {
-            return 0;
-        }
+        //if (numbers.Count == 0)
+        //{
+        //    return 0;
+        //}
 
         return numbers.Average();
     }
@@ -27,7 +27,7 @@ public class NumberService(IDbService db, ILogger<NumberService> logger) : INumb
         logger.LogInformation("Started calculating sum");
 
         var numbers = await db.GetNumbersAsync();
-        
+
         if (numbers.Count == 0)
         {
             return 0;
