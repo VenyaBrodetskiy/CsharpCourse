@@ -17,8 +17,10 @@ public class WebApiTest : IClassFixture<WebApiFactory>
         _factory = factory;
     }
 
-    [Fact]
-    public async Task CalculateSumEndpoint_ReturnsCorrectSum()
+    [Theory]
+    [InlineData("sum", 75)]      
+    [InlineData("average", 25)] 
+    public async Task CalculateEndpoint_ReturnsCorrectResult(string operation, double expected)
     {
         // Arrange
         using (var scope = _factory.Services.CreateScope())
@@ -33,13 +35,21 @@ public class WebApiTest : IClassFixture<WebApiFactory>
         }
 
         // Act
-        var response = await _client.GetAsync("/calculate?operation=sum");
+        var response = await _client.GetAsync($"/calculate?operation={operation}");
         response.EnsureSuccessStatusCode();
 
         var result = await response.Content.ReadFromJsonAsync<CalculationResult>();
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(75, result.Result);
+        Assert.Equal(expected, result.Result);
+
+        // Cleanup
+        using (var scope = _factory.Services.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            dbContext.Numbers.RemoveRange(dbContext.Numbers);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
