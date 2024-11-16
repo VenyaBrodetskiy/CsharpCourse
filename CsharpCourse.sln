@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchCase", "SwitchCase\SwitchCase.csproj", "{B857A8DC-EFDD-44D0-900F-F352BAF48948}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchCase", "SwitchCase\SwitchCase.csproj", "{B857A8DC-EFDD-44D0-900F-F352BAF48948}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelFor", "ParallelFor\ParallelFor.csproj", "{779714BD-1D0A-4239-BE87-210B6708AA91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelFor", "ParallelFor\ParallelFor.csproj", "{779714BD-1D0A-4239-BE87-210B6708AA91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{58F66494-2387-468E-A3BF-C547864F6C84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{779714BD-1D0A-4239-BE87-210B6708AA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{779714BD-1D0A-4239-BE87-210B6708AA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{779714BD-1D0A-4239-BE87-210B6708AA91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58F66494-2387-468E-A3BF-C547864F6C84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58F66494-2387-468E-A3BF-C547864F6C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58F66494-2387-468E-A3BF-C547864F6C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58F66494-2387-468E-A3BF-C547864F6C84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
