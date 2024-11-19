@@ -27,19 +27,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await dbContext.Database.EnsureCreatedAsync();
-    dbContext.Numbers.AddRange(
-        new Number { Id = 1, Value = 10 },
-        new Number { Id = 2, Value = 20 },
-        new Number { Id = 3, Value = 30 }
-    );
-    dbContext.SaveChanges();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//    await dbContext.Database.EnsureCreatedAsync();
+//    dbContext.Numbers.AddRange(
+//        new Number { Id = 1, Value = 10 },
+//        new Number { Id = 2, Value = 20 },
+//        new Number { Id = 3, Value = 30 }
+//    );
+//    dbContext.SaveChanges();
+//}
 
-app.MapPost("/calculate", async ([FromServices] INumberService numberService, [FromQuery] string operation) =>
+app.MapGet("/calculate", async ([FromServices] INumberService numberService, [FromQuery] string operation) =>
 {
     var result = operation.ToLower() switch
     {
@@ -56,3 +56,5 @@ app.MapPost("/calculate", async ([FromServices] INumberService numberService, [F
 .WithName("calculate");
 
 app.Run();
+
+public partial class Program { }
