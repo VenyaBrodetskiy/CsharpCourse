@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using DiffEngine;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,5 +20,7 @@ public class WebApiFactory : WebApplicationFactory<Program>
                 options.UseInMemoryDatabase("Numbers");
             });
         });
+
+        DiffTools.UseOrder(false, DiffTool.VisualStudio);
     }
 }

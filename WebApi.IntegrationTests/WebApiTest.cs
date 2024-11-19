@@ -52,4 +52,33 @@ public class WebApiTest : IClassFixture<WebApiFactory>
             await dbContext.SaveChangesAsync();
         }
     }
+
+    [Fact]
+    public async Task CalculateEndpoint_InvalidOperation_ReturnsBadRequest()
+    {
+        // Arrange
+        using (var scope = _factory.Services.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            dbContext.Numbers.AddRange(
+                new Number { Id = 100, Value = 15 },
+                new Number { Id = 101, Value = 25 },
+                new Number { Id = 102, Value = 35 }
+            );
+            await dbContext.SaveChangesAsync();
+        }
+        // Act
+        var response = await _client.GetAsync($"/calculate?operation=invalid");
+
+        // Assert
+        await Verify(response);
+        
+        // Cleanup
+        using (var scope = _factory.Services.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            dbContext.Numbers.RemoveRange(dbContext.Numbers);
+            await dbContext.SaveChangesAsync();
+        }
+    }
 }
