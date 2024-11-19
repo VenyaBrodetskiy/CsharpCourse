@@ -29,8 +29,8 @@ public class NumberServiceTest(NumberServiceFixture fixture) : IClassFixture<Num
     public async Task CalculateAverageAsync_ReturnsZero_WhenNumbersDoNotExist()
     {
         // Arrange
-        //var numbers = new List<int>();
-        var numbers = new List<int> { 20, 30, 40 };
+        var numbers = new List<int>();
+        //var numbers = new List<int> { 20, 30, 40 };
 
         _mockDb
             .Setup(db => db.GetNumbersAsync())
@@ -40,6 +40,6 @@ public class NumberServiceTest(NumberServiceFixture fixture) : IClassFixture<Num
         var result = await _numberService.CalculateAverageAsync();
 
         // Assert
-        Assert.Equal(30, result);
+        Assert.Equal(0, result);
     }
 }
