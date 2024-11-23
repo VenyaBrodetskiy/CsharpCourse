@@ -15,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("Numbers"));
 builder.Services.AddScoped<IDbService, DbService>();
 builder.Services.AddScoped<INumberService, NumberService>();
+builder.Services.AddScoped<IAlbumService, AlbumService>();
 
 var app = builder.Build();
 
@@ -54,6 +55,17 @@ app.MapGet("/calculate", async ([FromServices] INumberService numberService, [Fr
     });
 })
 .WithName("calculate");
+
+app.MapGet("/albums", async ([FromServices] IAlbumService service) =>
+{
+    var result = await service.GetAlbums();
+
+    return Results.Ok(new
+    {
+        Result = result
+    });
+})
+.WithName("albums");
 
 app.Run();
 
