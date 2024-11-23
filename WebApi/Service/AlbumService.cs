@@ -9,19 +9,19 @@ public interface IAlbumService
 public class AlbumService : IAlbumService
 {
     private readonly ILogger<Album> _logger;
+    private readonly HttpClient _httpClient;
 
-    public AlbumService(ILogger<Album> logger)
+    public AlbumService(ILogger<Album> logger, IHttpClientFactory httpClientFactory)
     {
         _logger = logger;
+        _httpClient = httpClientFactory.CreateClient("AlbumsApi");
     }
 
     public async Task<IEnumerable<Album>> GetAlbums()
     {
         try
         {
-            var http = new HttpClient();
-
-            var response = await http.GetAsync("https://jsonplaceholder.typicode.com/albums");
+            var response = await _httpClient.GetAsync("/albums");
 
             response.EnsureSuccessStatusCode();
 
