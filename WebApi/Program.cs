@@ -15,6 +15,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IDbService, DbService>();
 builder.Services.AddScoped<INumberService, NumberService>();
 builder.Services.AddScoped<IAlbumService, AlbumService>();
+builder.Services.AddScoped<EmailNotificationService>();
+builder.Services.AddScoped<SmsNotificationService>();
+builder.Services.AddScoped<PushNotificationService>();
+
+builder.Services.AddHttpClient("AlbumsApi", client =>
+{
+    client.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/");
+});
 
 builder.Services.AddHttpClient();
 
@@ -67,6 +75,33 @@ app.MapGet("/albums", async ([FromServices] IAlbumService service) =>
     });
 })
 .WithName("albums");
+
+app.MapGet("/notify-mom", async (
+        [FromQuery] string type, 
+        [FromServices] EmailNotificationService email, 
+        [FromServices] SmsNotificationService sms, 
+        [FromServices] PushNotificationService push) =>
+{
+    var to = "mom";
+    var message = "I am ok";
+    switch (type.ToLower())
+    {
+        case "email":
+            await email.SendAsync(to, message);
+            break;
+        case "sms":
+            await sms.SendAsync(to, message);
+            break;
+        case "push":
+            await push.SendAsync(to, message);
+            break;
+        default:
+            throw new NotSupportedException("Notification type not supported");
+    }
+
+    return Results.Ok();
+})
+.WithName("notification");
 
 app.Run();
 

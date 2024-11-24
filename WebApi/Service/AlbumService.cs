@@ -11,17 +11,17 @@ public class AlbumService : IAlbumService
     private readonly ILogger<Album> _logger;
     private readonly HttpClient _httpClient;
 
-    public AlbumService(ILogger<Album> logger, HttpClient httpClient)
+    public AlbumService(ILogger<Album> logger, IHttpClientFactory httpClientFactory)
     {
         _logger = logger;
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient("AlbumsApi");
     }
 
     public async Task<IEnumerable<Album>> GetAlbums()
     {
         try
         {
-            var response = await _httpClient.GetAsync("https://jsonplaceholder.typicode.com/albums");
+            var response = await _httpClient.GetAsync("/albums");
 
             response.EnsureSuccessStatusCode();
 
