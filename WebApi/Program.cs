@@ -15,9 +15,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IDbService, DbService>();
 builder.Services.AddScoped<INumberService, NumberService>();
 builder.Services.AddScoped<IAlbumService, AlbumService>();
-builder.Services.AddScoped<EmailNotificationService>();
-builder.Services.AddScoped<SmsNotificationService>();
-builder.Services.AddScoped<PushNotificationService>();
+
+builder.Services.AddSingleton<EmailNotificationService>();
+builder.Services.AddSingleton<SmsNotificationService>();
+builder.Services.AddSingleton<PushNotificationService>();
+
+builder.Services.AddSingleton<INotificationFactory, NotificationFactory>();
 
 builder.Services.AddHttpClient("AlbumsApi", client =>
 {
@@ -78,26 +81,14 @@ app.MapGet("/albums", async ([FromServices] IAlbumService service) =>
 
 app.MapGet("/notify-mom", async (
         [FromQuery] string type, 
-        [FromServices] EmailNotificationService email, 
-        [FromServices] SmsNotificationService sms, 
-        [FromServices] PushNotificationService push) =>
+        [FromServices] INotificationFactory factory) =>
 {
-    var to = "mom";
-    var message = "I am ok";
-    switch (type.ToLower())
-    {
-        case "email":
-            await email.SendAsync(to, message);
-            break;
-        case "sms":
-            await sms.SendAsync(to, message);
-            break;
-        case "push":
-            await push.SendAsync(to, message);
-            break;
-        default:
-            throw new NotSupportedException("Notification type not supported");
-    }
+    const string to = "mom";
+    const string message = "I am ok";
+
+    var notificationService = factory.GetNotificationService(type);
+
+    await notificationService.SendAsync(to, message);
 
     return Results.Ok();
 })
