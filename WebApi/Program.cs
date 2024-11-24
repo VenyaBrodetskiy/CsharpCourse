@@ -27,6 +27,8 @@ builder.Services.AddHttpClient("AlbumsApi", client =>
     client.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/");
 });
 
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

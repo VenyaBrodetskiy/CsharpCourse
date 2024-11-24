@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Moq;
+﻿using Moq;
 using WebApi.Service;
 
 namespace WebApi.Tests.Service;
