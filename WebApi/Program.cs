@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using WebApi.Data;
-using WebApi.Models;
 using WebApi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +15,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IDbService, DbService>();
 builder.Services.AddScoped<INumberService, NumberService>();
 builder.Services.AddScoped<IAlbumService, AlbumService>();
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
