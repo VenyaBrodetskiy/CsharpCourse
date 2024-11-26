@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using WebApi;
 using WebApi.Data;
 using WebApi.Service;
 
@@ -16,11 +17,7 @@ builder.Services.AddScoped<IDbService, DbService>();
 builder.Services.AddScoped<INumberService, NumberService>();
 builder.Services.AddScoped<IAlbumService, AlbumService>();
 
-builder.Services.AddSingleton<EmailNotificationService>();
-builder.Services.AddSingleton<SmsNotificationService>();
-builder.Services.AddSingleton<PushNotificationService>();
-
-builder.Services.AddSingleton<INotificationFactory, NotificationFactory>();
+builder.Services.AddNotificationServices();
 
 builder.Services.AddHttpClient("AlbumsApi", client =>
 {
