@@ -9,19 +9,20 @@ public interface IAlbumService
 public class AlbumService : IAlbumService
 {
     private readonly ILogger<Album> _logger;
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientFactory _httpClientFactory;
 
     public AlbumService(ILogger<Album> logger, IHttpClientFactory httpClientFactory)
     {
         _logger = logger;
-        _httpClient = httpClientFactory.CreateClient("AlbumsApi");
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<IEnumerable<Album>> GetAlbums()
     {
         try
         {
-            var response = await _httpClient.GetAsync("/albums");
+            var httpClient = _httpClientFactory.CreateClient("AlbumsApi");
+            var response = await httpClient.GetAsync("/albums");
 
             response.EnsureSuccessStatusCode();
 
