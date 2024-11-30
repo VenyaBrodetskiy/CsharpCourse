@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using WebApi;
 using WebApi.Data;
+using WebApi.Endpoints;
 using WebApi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,47 +49,8 @@ app.UseHttpsRedirection();
 //    dbContext.SaveChanges();
 //}
 
-app.MapGet("/calculate", async ([FromServices] INumberService numberService, [FromQuery] string operation) =>
-{
-    var result = operation.ToLower() switch
-    {
-        "average" => await numberService.CalculateAverageAsync(),
-        "sum" => await numberService.CalculateSumAsync(),
-        _ => throw new NotSupportedException("Operation not supported")
-    };
-
-    return Results.Ok(new
-    {
-        Result = result
-    });
-})
-.WithName("calculate");
-
-app.MapGet("/albums", async ([FromServices] IAlbumService service) =>
-{
-    var result = await service.GetAlbums();
-
-    return Results.Ok(new
-    {
-        Result = result
-    });
-})
-.WithName("albums");
-
-app.MapGet("/notify-mom", async (
-        [FromQuery] string type, 
-        [FromServices] INotificationFactory factory) =>
-{
-    const string to = "mom";
-    const string message = "I am ok";
-
-    var notificationService = factory.GetNotificationService(type);
-
-    await notificationService.SendAsync(to, message);
-
-    return Results.Ok();
-})
-.WithName("notification");
+app.MapCalculationEndpoints();
+app.MapFactoryDemoEndpoints();
 
 app.Run();
 
