@@ -14,20 +14,22 @@ public class EmailNotificationService : INotificationService
     }
 }
 
-public class SmsNotificationService : INotificationService
+public class SmsNotificationService(TwilioService twilio, UserDbService userDb, ILogger<SmsNotificationService> logger) : INotificationService
 {
-    public Task SendAsync(string recipient, string message)
+    public async Task SendAsync(string recipient, string message)
     {
-        Console.WriteLine($"Sending SMS to {recipient}: {message}");
-        return Task.CompletedTask;
+        logger.LogInformation("Sending SMS to {recipient}: {message}", recipient, message);
+        var user = userDb.GetUserInfo(recipient);
+        await twilio.SendSmsAsync(user.PhoneNumber, message, "WebApiApp");
     }
 }
 
-public class PushNotificationService : INotificationService
+public class PushNotificationService(TwilioService twilio, UserDbService userDb, ILogger<PushNotificationService> logger) : INotificationService
 {
     public Task SendAsync(string recipient, string message)
     {
-        Console.WriteLine($"Sending Push Notification to {recipient}: {message}");
-        return Task.CompletedTask;
+        logger.LogInformation("Sending Push Notification to {recipient}: {message}", recipient, message);
+        var user = userDb.GetUserInfo(recipient);
+        return twilio.SendPushAsync(user.DeviceToken, "WebApiApp", message);
     }
 }
