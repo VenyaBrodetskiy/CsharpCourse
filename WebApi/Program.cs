@@ -16,6 +16,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IDbService, DbService>();
 builder.Services.AddScoped<INumberService, NumberService>();
 builder.Services.AddScoped<IAlbumService, AlbumService>();
+builder.Services.AddSingleton<TwilioService>();
+builder.Services.AddSingleton<UserDbService>();
 
 builder.Services.AddNotificationServices();
 
