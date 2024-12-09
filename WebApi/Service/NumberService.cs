@@ -14,6 +14,9 @@ public class NumberService(IDbService db, ILogger<NumberService> logger) : INumb
 
         var numbers = await db.GetNumbersAsync();
 
+        var res1 = await db.GetNumberByIdFilterInDb(101);
+        var res2 = await db.GetNumberByIdFilterInMemory(101);
+
         if (numbers.Count == 0)
         {
             return 0;
